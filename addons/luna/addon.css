@@ -1,0 +1,260 @@
+/* The LUNA Add On's page: the web app's deck with the YouTube search, the shelf and the
+   platter card taken away, and a bar for where the audio comes from in their place. */
+[data-host="luna"] .topbar .search,
+[data-host="luna"] .topbar .brand, /* no wordmark: LUNA's window already names the Add On (owner, 2026-11-19) */
+[data-host="luna"] #scene label[data-shown=shelf], /* the Add On has no shelf */
+[data-host="luna"] #scene .checks > button, /* no Deck only button (owner, 2026-11-19) */
+[data-host="luna"] .hide-card .addon-card, /* the View panel's Record card switch */
+[data-host="luna"] #scrim,
+[data-host="luna"] #found,
+[data-host="luna"] #platter,
+[data-host="luna"] #shelfStrip,
+[data-host="luna"] #collection,
+[data-host="luna"] #vintageRow,
+[data-host="luna"] #vintageNote,
+[data-host="luna"] #tableSection,
+[data-host="luna"] #tableView,
+/* the phono preamp is always the clean solid-state one in the Add On (the valve stage is a hand-made guess) */
+[data-host="luna"] label:has(> #preSel) { display: none !important; }
+
+[data-host="luna"] .addon-bar { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+/* for a screen reader only: what the record card is doing */
+[data-host="luna"] .addon-sr { position: fixed; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---- the camera bar (addon.js): one toolbar in place of the deck's own view buttons ---- */
+[data-host="luna"] .deckviews { display: none !important; }
+[data-host="luna"] .addon-vbar { position: fixed; z-index: 5; top: calc(var(--bar-h) + 12px); right: 16px; display: flex; align-items: center; gap: 2px; height: 34px; padding: 3px;
+  background: rgba(22, 20, 18, .84); backdrop-filter: blur(12px) saturate(1.2); -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid var(--glass-line); border-radius: 11px; box-shadow: 0 6px 18px rgba(0, 0, 0, .28); font-size: 12.5px;
+  transition: right 220ms cubic-bezier(.2, .7, .2, 1), opacity 400ms; }
+/* the Workbench and the View panel slide in over the deck: the bar steps aside for them */
+[data-host="luna"] body:has(#bench.open) .addon-vbar { right: 416px; }
+[data-host="luna"] body:has(#scene:not([hidden])) .addon-vbar { right: 316px; }
+[data-host="luna"] .addon-vbar .vb-views { position: relative; display: flex; height: 100%; }
+[data-host="luna"] .addon-vbar .vb-thumb { position: absolute; top: 0; bottom: 0; left: 0; width: 0; border-radius: 8px; background: rgba(255, 255, 255, .09);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); transition: transform 200ms cubic-bezier(.2, .7, .2, 1), width 200ms cubic-bezier(.2, .7, .2, 1); }
+[data-host="luna"] .addon-vbar button { position: relative; height: 100%; display: inline-flex; align-items: center; gap: 6px; padding: 0 11px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--dim); font: 500 12.5px var(--ui); letter-spacing: .01em; box-shadow: none; }
+[data-host="luna"] .addon-vbar button:hover { color: var(--ink); background: transparent; }
+[data-host="luna"] .addon-vbar button:focus-visible { outline: 2px solid rgba(242, 163, 58, .6); outline-offset: 1px; }
+[data-host="luna"] .addon-vbar button[aria-pressed=true] { color: var(--ink); }
+[data-host="luna"] .addon-vbar .ico { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+[data-host="luna"] .addon-vbar .vb-div { width: 1px; height: 18px; background: var(--glass-line); margin: 0 3px; }
+[data-host="luna"] .addon-vbar .vb-x[aria-pressed=true] { color: var(--amber); background: rgba(242, 163, 58, .13); }
+[data-host="luna"] .addon-vbar .vb-reset { width: 28px; padding: 0; justify-content: center; display: none; }
+[data-host="luna"] .addon-vbar.moved .vb-reset { display: inline-flex; }
+/* turned, slid or zoomed away from the chosen view: its name goes italic, with a dot */
+[data-host="luna"] .addon-vbar.moved .vb-views button[aria-pressed=true] { font-style: italic; }
+
+/* ---- the record card, top left (under the bar, level with the camera bar): the record in every state ---- */
+[data-host="luna"] .addon-card { position: fixed; z-index: 5; left: 16px; top: calc(var(--bar-h) + 12px); width: 360px; box-sizing: border-box; padding: 12px 14px;
+  background: rgba(25, 23, 21, .86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-line); border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .35); color: var(--ink); font-family: var(--ui); }
+[data-host="luna"] .addon-card .rc-top { display: flex; align-items: center; gap: 12px; }
+[data-host="luna"] .addon-card .rc-disc { flex: none; width: 36px; height: 36px; border-radius: 50%; box-sizing: border-box;
+  background: radial-gradient(circle, #3a3530 0 26%, #0d0c0b 27% 100%); border: 1px dashed #4a443d; }
+/* pressing and playing: the lacquer inside a ring. While pressing it turns and the ring fills amber
+   with the cut; on the platter it stands still in a plain ring, with no progress shown (owner,
+   2026-11-19: the same record, not the plainer gold-centred one) */
+[data-host="luna"] .addon-card:is([data-rec=pressing], [data-rec=playing]) .rc-disc { position: relative; border: none; background: conic-gradient(var(--amber) var(--p, 0%), #2e2a26 0); }
+[data-host="luna"] .addon-card:is([data-rec=pressing], [data-rec=playing]) .rc-disc::before { content: ""; position: absolute; inset: 3px; border-radius: 50%;
+  background: radial-gradient(circle, #3a3530 0 22%, transparent 23%), conic-gradient(from 0deg, #0b0a09, #34302b 10%, #0b0a09 24%, #0b0a09 50%, #34302b 60%, #0b0a09 74%); }
+[data-host="luna"] .addon-card[data-rec=pressing] .rc-disc::before { animation: addon-spin 1.4s linear infinite; }
+[data-host="luna"] .addon-card[data-rec=playing] .rc-disc { background: #2e2a26; }
+[data-host="luna"] .addon-card[data-rec=failed] .rc-disc { border-color: var(--bad); }
+[data-host="luna"] .addon-card .rc-t { flex: 1; min-width: 0; line-height: 1.3; }
+[data-host="luna"] .addon-card .rc-title { display: flex; align-items: center; gap: 6px; min-width: 0; }
+[data-host="luna"] .addon-card .rc-title b { min-width: 0; font: 600 15px var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+[data-host="luna"] .addon-card .rc-dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+[data-host="luna"] .addon-card .rc-dot[hidden] { display: none; }
+[data-host="luna"] .addon-card small { display: block; color: var(--dim); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+[data-host="luna"] .addon-card small.err { color: var(--bad); white-space: normal; }
+/* an instruction is read whole: it wraps rather than trailing off */
+[data-host="luna"] .addon-card[data-rec=empty] small { white-space: normal; }
+[data-host="luna"] .addon-card .rc-prog { height: 3px; border-radius: 2px; background: #2e2a26; overflow: hidden; margin-top: 10px; }
+[data-host="luna"] .addon-card .rc-prog[hidden] { display: none; }
+[data-host="luna"] .addon-card .rc-prog i { display: block; height: 100%; width: 0; background: var(--amber); transition: width 240ms linear; }
+[data-host="luna"] .addon-card .rc-prog { position: relative; }
+[data-host="luna"] .addon-card.idle .rc-prog::after { content: ""; position: absolute; inset: 0; width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255, 187, 92, .55), transparent); animation: addon-sweep 1.6s ease-in-out infinite; }
+@keyframes addon-sweep { from { transform: translateX(-100%); } to { transform: translateX(270%); } }
+/* a press's steps: done ones ticked, the one under way pulsing */
+[data-host="luna"] .addon-card .rc-steps { list-style: none; margin: 10px 0 0; padding: 0; font-size: var(--t-small); }
+[data-host="luna"] .addon-card .rc-steps[hidden] { display: none; }
+[data-host="luna"] .addon-card .rc-steps li { display: flex; align-items: center; gap: 8px; padding: 2px 0; color: var(--faint); }
+[data-host="luna"] .addon-card .rc-steps li::before { content: "○"; flex: none; width: 12px; text-align: center; font-size: 11px; }
+[data-host="luna"] .addon-card .rc-steps li.done { color: var(--dim); }
+[data-host="luna"] .addon-card .rc-steps li.done::before { content: "✓"; color: #8fbf7a; }
+[data-host="luna"] .addon-card .rc-steps li.now { color: var(--ink); }
+[data-host="luna"] .addon-card .rc-steps li.now::before { content: ""; width: 7px; height: 7px; margin: 0 2.5px; border-radius: 50%; background: var(--amber); animation: addon-pulse 1.1s ease-in-out infinite; }
+@keyframes addon-pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { [data-host="luna"] .addon-card .rc-disc::before, [data-host="luna"] .addon-card.idle .rc-prog::after, [data-host="luna"] .addon-card .rc-steps li.now::before { animation: none; } }
+[data-host="luna"] .addon-card .rc-acts { display: flex; gap: 6px; margin-top: 10px; }
+[data-host="luna"] .addon-card .rc-acts:empty { display: none; }
+[data-host="luna"] .addon-card .rc-acts button { padding: 5px 12px; font-size: var(--t-small); }
+@keyframes addon-spin { to { transform: rotate(360deg); } }
+/* the deck's own hints sit above the card's row, in the middle */
+[data-host="luna"] .hint { bottom: 22px; }
+
+/* ---- quiet when idle: the camera bar fades; the deck and the record card stay ---- */
+[data-host="luna"] body.addon-idle .addon-vbar { opacity: 0; pointer-events: none; }
+
+/* ---- a small window: volume into the Workbench, icons only, a tighter card ---- */
+[data-host="luna"] .addon-listening { display: none !important; }
+[data-host="luna"] body.addon-small .addon-listening { display: grid !important; }
+[data-host="luna"] body.addon-small .topbar .meters { display: none; }
+[data-host="luna"] .addon-listening label.vol { display: flex; align-items: center; gap: 8px; }
+[data-host="luna"] .addon-listening label.vol svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; }
+[data-host="luna"] .addon-listening label.vol input { flex: 1; }
+[data-host="luna"] body.addon-small .addon-vbar .vb-lbl { display: none; }
+[data-host="luna"] body.addon-small .addon-vbar button { padding: 0 9px; }
+[data-host="luna"] body.addon-small .addon-vbar .vb-reset { width: 28px; padding: 0; }
+[data-host="luna"] body.addon-small:has(#bench.open) .addon-vbar,
+[data-host="luna"] body.addon-small:has(#scene:not([hidden])) .addon-vbar { opacity: 0; pointer-events: none; }
+[data-host="luna"] body.addon-small .addon-card { width: 300px; padding: 9px 12px; }
+[data-host="luna"] body.addon-small .addon-card .rc-acts { margin-top: 8px; }
+[data-host="luna"] body.addon-small .hint { bottom: 96px; }
+
+/* the Dual's "See it working" section (CAD switch, X-ray and slow-motion boxes, mechanism views,
+   the cycle readout and the parts list): everything from its heading to the end of the panel */
+[data-host="luna"] .seeworking,
+[data-host="luna"] .seeworking ~ * { display: none !important; }
+
+/* pressing lives only in the Press dialog: the Workbench's Pressing, Test cut and Cut sheet sections go */
+[data-host="luna"] #bench section:has(#level),
+[data-host="luna"] #bench section:has(#file),
+[data-host="luna"] #bench section:has(#sheet) { display: none !important; }
+
+/* ---- the Press dialog ---- */
+[data-host="luna"] .press-scrim { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; background: rgba(8, 7, 6, .55); backdrop-filter: blur(3px); }
+[data-host="luna"] .press-scrim[hidden] { display: none; }
+[data-host="luna"] .press { width: min(540px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto; scrollbar-gutter: stable; padding: 22px 24px 18px;
+  background: var(--glass); border: 1px solid var(--glass-line); border-radius: 14px; box-shadow: var(--lift); color: var(--ink); font-family: var(--ui); }
+[data-host="luna"] .press header { margin-bottom: 16px; }
+[data-host="luna"] .press h2 { margin: 0; font: 600 22px/1.2 var(--serif); }
+[data-host="luna"] .press-from { margin: 4px 0 0; color: var(--dim); font-size: var(--t-small); }
+[data-host="luna"] .press-field { display: block; margin: 0 0 16px; }
+[data-host="luna"] .press-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 11.5px; color: var(--dim); letter-spacing: .08em; text-transform: uppercase; }
+[data-host="luna"] .press-label output { text-transform: none; letter-spacing: 0; font-size: var(--t-small); }
+[data-host="luna"] .press-label output { color: var(--ink); font-variant-numeric: tabular-nums; }
+[data-host="luna"] .press-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+[data-host="luna"] .press-cuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+[data-host="luna"] .press-opts button { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 10px 12px; border-radius: 10px; text-align: left; color: var(--ink); white-space: normal; }
+[data-host="luna"] .press-opts button b { font-weight: 600; font-size: var(--t-body); }
+[data-host="luna"] .press-opts button small { color: var(--dim); font-size: var(--t-micro); }
+[data-host="luna"] .press-cuts button:has(.press-pill) {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 6px;
+}
+[data-host="luna"] .press-cuts button:has(.press-pill) b { grid-column: 1; grid-row: 1; }
+[data-host="luna"] .press-cuts button small { grid-column: 1 / -1; }
+[data-host="luna"] .press-pill {
+  grid-column: 2; grid-row: 1; justify-self: end; max-width: 100%;
+  border: 1px solid #68615b; border-radius: 99px; padding: 1px 6px;
+  color: #cbc1b7; font-size: 10.5px; font-weight: 600; line-height: 1.45; text-align: center;
+}
+@media (max-width: 560px) {
+  [data-host="luna"] .press-cuts button:has(.press-pill) { grid-template-columns: minmax(0, 1fr); }
+  [data-host="luna"] .press-cuts button:has(.press-pill) b { grid-row: 2; }
+  [data-host="luna"] .press-pill { grid-column: 1; }
+}
+[data-host="luna"] .press-opts button[aria-checked=true] { border-color: var(--amber); background: rgba(242, 163, 58, .14); }
+[data-host="luna"] .press-opts button:disabled { opacity: .38; }
+[data-host="luna"] .press-note { margin: 7px 0 0; color: var(--dim); font-size: var(--t-small); line-height: 1.4; }
+[data-host="luna"] .press-note.warn { color: var(--amber-hi); }
+[data-host="luna"] .press-spark { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+/* Inactive notes and dial grids size the stack without being visible or focusable. */
+[data-host="luna"] .press-stack { display: grid; }
+[data-host="luna"] .press-stack > * { grid-area: 1 / 1; visibility: hidden; }
+[data-host="luna"] .press-stack > .current { visibility: visible; }
+[data-host="luna"] .press-disclosure { margin-top: 15px; border: 1px solid var(--glass-line); border-radius: 8px; }
+[data-host="luna"] .press-disclosure-trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+  min-height: 32px; padding: 6px 10px; border: 0; border-radius: 7px; background: transparent;
+  color: var(--ink); font-size: var(--t-small); text-align: left;
+}
+[data-host="luna"] .press-disclosure-trigger:disabled { opacity: .55; }
+[data-host="luna"] .press-chevron {
+  width: 7px; height: 7px; margin-right: 2px; border-right: 1px solid var(--dim); border-bottom: 1px solid var(--dim);
+  transform: translateY(-2px) rotate(45deg);
+}
+[data-host="luna"] .press-disclosure-trigger[aria-expanded="true"] .press-chevron { transform: translateY(2px) rotate(225deg); }
+[data-host="luna"] .press-dials { display: grid; gap: 8px; margin: 0 10px; padding: 9px 0 10px; border-top: 1px solid var(--glass-line); }
+[data-host="luna"] .press-dials[hidden] { display: none; }
+[data-host="luna"] .press-dial-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 8px 16px; }
+[data-host="luna"] .press-empty-dials { margin: 0; color: var(--dim); font-size: var(--t-small); }
+[data-host="luna"] .press-dial { display: block; min-width: 0; }
+[data-host="luna"] .press-dial > span { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; font-size: var(--t-small); }
+[data-host="luna"] .press-dial b { font-weight: 600; }
+[data-host="luna"] .press-dial output { color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
+[data-host="luna"] .press-dial input { width: 100%; margin: 3px 0 0; accent-color: var(--amber); }
+[data-host="luna"] .press-reset { justify-self: end; padding: 3px 10px; font-size: var(--t-small); }
+[data-host="luna"] .press-reset.unavailable { visibility: hidden; }
+@media (max-width: 360px) { [data-host="luna"] .press-dial-grid { grid-template-columns: 1fr; } }
+[data-host="luna"] .press-level input { width: 100%; }
+[data-host="luna"] .press-check input { accent-color: var(--amber); }
+[data-host="luna"] .press-check { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; font-size: var(--t-small); color: var(--ink); }
+[data-host="luna"] .press footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+
+/* one record at a time: the Dual's single/multi Mode and the changer spindle's stack controls go */
+[data-host="luna"] #bench label:has(> .seg[aria-label="Mode"]),
+[data-host="luna"] #dualStack,
+[data-host="luna"] #dualStack + p.note { display: none !important; }
+
+/* the Workbench in three groups (addon.js): the turntable, the record, and the cartridge folded away */
+[data-host="luna"] #bench .addon-gone { display: none !important; }
+[data-host="luna"] #bench .addon-group details > summary { cursor: pointer; font-weight: 600; font-size: var(--t-body); color: var(--ink); padding: 2px 0 8px; }
+[data-host="luna"] #bench .addon-group details[open] > summary { margin-bottom: 4px; }
+
+
+/* ---- the Workbench, compact: one row per control ---- */
+[data-host="luna"] #bench section { padding: 12px 0; gap: 8px; }
+[data-host="luna"] #bench h3 { margin: 0; font-size: var(--t-body); }
+/* explanations become tooltips on their headings (addon.js) rather than paragraphs */
+[data-host="luna"] #bench .dualpanel > p.note,
+[data-host="luna"] #bench .addon-group p.note { display: none !important; }
+[data-host="luna"] #bench [data-tip] { cursor: help; }
+/* Start, Stop and Lift: one tight row */
+[data-host="luna"] #bench .dualpanel .transport { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+[data-host="luna"] #bench .dualpanel .transport button { min-width: 0; padding: 5px 8px; font-size: var(--t-small); }
+/* Speed and Record size side by side, each label beside its buttons */
+[data-host="luna"] #bench .dualpanel .pair { display: flex; justify-content: space-between; gap: 10px; }
+[data-host="luna"] #bench .dualpanel .pair > label { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+[data-host="luna"] #bench .seg button { padding: 4px 9px; }
+/* a slider on one line: name, slider, value */
+[data-host="luna"] #bench label:has(> input[type=range]) { display: grid; grid-template-columns: 104px minmax(0, 1fr) 58px; align-items: center; column-gap: 10px; }
+[data-host="luna"] #bench label:has(> input[type=range]) > input { order: 2; width: 100%; margin: 0; }
+[data-host="luna"] #bench label:has(> input[type=range]) > output { order: 3; float: none; text-align: right; }
+/* a menu on one line: name, menu */
+[data-host="luna"] #bench label:has(> select) { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; column-gap: 10px; }
+[data-host="luna"] #bench label:has(> select) > select { min-width: 0; padding: 4px 8px; font-size: var(--t-small); }
+/* the anti-skating scale: a smaller switch under the dials */
+[data-host="luna"] #bench .dualpanel .skatescale .seg button { font-size: var(--t-micro); padding: 3px 9px; }
+/* "Tracking force and anti-skating": the sliders say it already */
+[data-host="luna"] #bench .dualpanel h3.addon-subhead { display: none; }
+[data-host="luna"] #bench .addon-group details > summary { padding: 0; }
+[data-host="luna"] #bench .addon-group details[open] > summary { margin-bottom: 8px; }
+[data-host="luna"] #bench .addon-group details { display: grid; gap: 8px; }
+[data-host="luna"] #bench .addon-listening label.vol { display: grid; grid-template-columns: 104px minmax(0, 1fr); }
+
+/* ---- the Workbench, styled as the View panel (amber section heads, chips, no rules between sections)
+   but compact enough to fit without scrolling: each slider on one line, name, slider, value
+   (owner, 2026-11-19) ---- */
+[data-host="luna"] #bench h2 { font: 600 var(--t-title)/1.2 var(--ui); }
+[data-host="luna"] #bench section { border-top: none; padding: 8px 0; gap: 11px; }
+[data-host="luna"] #bench h3.addon-sec { margin: 8px 0 2px; font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase; color: var(--amber); font-weight: 600; }
+[data-host="luna"] #bench label:has(> input[type=range]) { grid-template-columns: 96px minmax(0, 1fr) 70px; column-gap: 10px; font-size: var(--t-small); color: var(--dim); }
+[data-host="luna"] #bench label:has(> input[type=range]) > input { order: 2; accent-color: var(--amber); }
+[data-host="luna"] #bench label:has(> input[type=range]) > output { order: 3; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+[data-host="luna"] #bench label:has(> select) { grid-template-columns: 96px minmax(0, 1fr); column-gap: 10px; font-size: var(--t-small); color: var(--dim); }
+[data-host="luna"] #bench label:has(> select) > select { width: 100%; padding: 3px 8px; }
+[data-host="luna"] #bench .dualpanel .pair > label { display: flex; align-items: center; gap: 8px; font-size: var(--t-small); color: var(--dim); }
+[data-host="luna"] #bench .seg { gap: 4px; flex-wrap: nowrap; }
+[data-host="luna"] #bench .dualpanel .pair { gap: 6px; }
+[data-host="luna"] #bench .dualpanel .pair > label { gap: 6px; }
+[data-host="luna"] #bench .seg button,
+[data-host="luna"] #bench .dualpanel .skatescale .seg button { margin-left: 0; border-radius: 999px; padding: 3px 10px; font-size: var(--t-small); font-weight: 400; color: var(--ink); background: transparent; }
+[data-host="luna"] #bench .seg button.on { border-color: var(--amber); color: var(--amber-hi); background: rgba(232, 160, 60, .12); font-weight: 400; }
+[data-host="luna"] #bench .dualpanel .transport button { padding: 5px 8px; }
+/* the stylus choice on one line, laid out as the slider rows: name, then its two chips */
+[data-host="luna"] #bench .dualpanel .skatescale { grid-template-columns: 96px auto; justify-content: start; justify-items: start; align-items: center; column-gap: 10px; }
+[data-host="luna"] #bench .dualpanel .skatescale small { font-size: var(--t-small); color: var(--dim); }

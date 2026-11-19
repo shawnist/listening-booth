@@ -1,0 +1,28 @@
+/* Styles for the deck stage (owned by the deck view). */
+.deckwrap {
+  /* a studio backdrop: light falls on the middle of the table and dies away */
+  background:
+    radial-gradient(ellipse 62% 58% at 46% 46%, rgba(255, 236, 205, .075), rgba(255, 236, 205, 0) 70%),
+    radial-gradient(ellipse 120% 100% at 50% 40%, #24211e 0%, #191715 55%, #121110 100%);
+}
+#deck {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  box-shadow: none; cursor: default;
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; outline: none;
+}
+/* under the bar along the top, and clear of the Workbench when it is open (app.js keeps --in-r) */
+.deckviews { position: absolute; top: calc(var(--bar-h, 0px) + 12px); right: calc(var(--in-r, 0px) + 14px); display: flex; z-index: 2; transition: right 220ms cubic-bezier(.2, .7, .2, 1); }
+.deckviews button {
+  font-size: 12px; padding: 5px 11px; border-radius: 0; margin-left: -1px;
+  background: rgba(27, 25, 23, .72); border: 1px solid var(--line); color: var(--dim);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.deckviews button:first-child { border-radius: 8px 0 0 8px; margin-left: 0; }
+.deckviews button:last-child { border-radius: 0 8px 8px 0; }
+.deckviews button[aria-pressed=true] { color: var(--ink); border-color: #5a524a; background: rgba(48, 43, 38, .85); z-index: 1; }
+.deck-nogl { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--dim); }
+.hint { z-index: 2; }
+
+/* Keep the fallback deck out of the first CAD loading frame. */
+.deck-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--dim); pointer-events: none; }
+.deck-loading.fallback { inset: auto 24px calc(var(--shelf-h) + 24px); padding: 10px 14px; background: var(--glass); border-radius: 8px; text-align: center; }

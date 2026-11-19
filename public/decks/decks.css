@@ -1,0 +1,25 @@
+/* The turntable switch, the Dual 1229's Workbench controls, and the X-ray part names. */
+.deckviews button.xr { color: #9fc3ff; }
+.deckviews button.xr[aria-pressed=true] { color: #d8e6ff; border-color: #4c6a96; background: rgba(28, 40, 60, .88); }
+.bench .dualpanel .transport button { min-width: 64px; }
+.bench .dualpanel .seg button { padding: 5px 10px; }
+.bench .dualpanel .row { display: flex; flex-wrap: wrap; gap: 6px; }
+.bench .dualpanel .row button { padding: 4px 9px; font-size: var(--t-small); }
+.bench .dualpanel h3 + .note { margin-top: -4px; }
+.note.warn { color: #e6c27a; border-left: 2px solid #b48a3a; padding-left: 8px; }
+.dualread { font-size: 11px; line-height: 1.5; }
+.duallog { margin: 0; padding: 0 0 0 16px; color: var(--dim); font-size: var(--t-micro); line-height: 1.45; }
+.duallegend { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 2px; }
+.duallegend li button { width: 100%; text-align: left; background: transparent; border: 0; display: grid; grid-template-columns: 74px 1fr; gap: 8px; padding: 3px 6px; border-radius: 6px; font-size: var(--t-micro); color: var(--dim); cursor: pointer; }
+.duallegend button:hover, .duallegend button:focus-visible, .duallegend button[aria-pressed="true"] { background: rgba(58, 123, 255, .16); color: var(--ink); }
+.duallegend li b { color: #9fc3ff; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bench details summary { cursor: pointer; color: var(--ink); font-size: var(--t-small); }
+#tableView { display: grid; gap: 6px; }
+.bench .dualpanel, .bench #tableSection { grid-template-columns: minmax(0, 1fr); }
+.bench .dualpanel > * { min-width: 0; }
+.bench .dualpanel .skatescale { display: grid; justify-items: center; gap: 4px; }
+.bench .dualpanel .skatescale small { color: var(--dim); font-size: var(--t-micro); }
+/* the scale's colour as a dot on each stylus choice */
+.bench .dualpanel .skatescale button::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; vertical-align: 1px; }
+.bench .dualpanel .skatescale button[data-v=red]::before { background: #d23b2f; }
+.bench .dualpanel .skatescale button[data-v=white]::before { background: #ece9e2; }
