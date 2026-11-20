@@ -3,7 +3,7 @@
   "id": "com.shawnist.groove-deck",
   "name": "Listening Booth",
   "title": "Listening Booth",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "manufacturer": "Listening Booth",
   "description": "The groove is the recording.\n\nListening Booth lets you press a virtual record from your LUNA session or an audio file. The cutter turns your mix into the shape of a vinyl groove. Drop the needle and the simulated stylus traces that groove as the platter spins. Its motion produces the sound you hear.",
   "icon": "addons/luna/release/listening-booth.png",
