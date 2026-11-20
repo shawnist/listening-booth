@@ -23,12 +23,6 @@
 
 <header class="topbar">
   <div class="brand">Listening Booth</div>
-  <form id="searchForm" class="search" role="search">
-    <svg class="glass" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6"></circle><path d="M10.5 10.5 14 14"></path></svg>
-    <input id="q" type="search" placeholder="Search YouTube Music: songs and albums" aria-label="Search YouTube Music for songs and albums, or paste a link" autocomplete="off" spellcheck="false">
-    <kbd id="slashKey" title="Press / to search">/</kbd>
-    <button id="searchGo" class="quiet" type="submit">Search</button>
-  </form>
   <div class="listen">
     <div class="seg ab" role="group" aria-label="What you hear">
       <button id="abGroove" class="on" type="button" title="Hear the pressed vinyl">Vinyl</button>
@@ -50,54 +44,12 @@
 <div id="scrim" class="scrim" hidden></div>
 <section id="found" class="found" aria-label="Search results" hidden></section>
 
-<!-- What is on the platter. -->
-<aside id="platter" class="platter" aria-label="On the platter"></aside>
-
 <!-- Camera, what is shown, and lighting. Stays open while you look at what it changes. -->
 <aside id="scene" class="scene" aria-label="View" hidden></aside>
 <button id="deckOnlyBack" class="deckonlyback" type="button" title="Show everything again (H)" hidden>Show controls</button>
 
-<!-- The shelf: your records, standing in a row. -->
-<footer id="shelfStrip" class="shelf" aria-label="Your shelf">
-  <div class="rail">
-    <h2>Shelf</h2>
-    <span id="shelfCount" class="count"></span>
-    <span class="readout"><span id="shelfOver"></span><span id="shelfNote" role="status"></span></span>
-    <button id="openCollection" class="quiet" type="button" title="See every record at once, filter and sort them">Open collection</button>
-  </div>
-  <div class="well">
-    <ul id="shelf" class="row" aria-label="Records on your shelf"></ul>
-    <div id="shelfEmpty" class="empty" hidden>
-      <span class="slot"></span><span class="slot s7"></span><span class="slot"></span>
-      <p><b>Your shelf is empty.</b> Search for a song or an album and press your first record.</p>
-      <button id="firstSearch" class="primary" type="button">Search YouTube Music</button>
-    </div>
-  </div>
-</footer>
-
-<!-- The whole collection, when the strip is not enough. -->
-<section id="collection" class="collection" aria-label="Your collection" hidden>
-  <header>
-    <h2>Your collection</h2>
-    <span id="collCount" class="count"></span>
-    <input id="collFilter" type="search" placeholder="Filter by title or artist" aria-label="Filter your collection by title or artist" autocomplete="off" spellcheck="false">
-    <label class="sort">Sort
-      <select id="collSort">
-        <option value="recent">Recently played</option>
-        <option value="pressed">Recently pressed</option>
-        <option value="title">Title</option>
-        <option value="artist">Artist</option>
-        <option value="plays">Most played</option>
-      </select>
-    </label>
-    <button id="closeCollection" class="quiet" type="button">Close</button>
-  </header>
-  <ul id="collGrid" class="grid"></ul>
-  <p id="collNone" class="none" hidden></p>
-</section>
-
-<!-- The record a sleeve was clicked for. -->
-<div id="card" class="card" role="dialog" aria-label="About this record" hidden></div>
+<!-- The shelf's strip, empty: the Add On has no shelf. -->
+<footer id="shelfStrip" class="shelf"><span id="shelfNote" role="status"></span></footer>
 
 <!-- Everything technical. Closed until asked for. -->
 <aside id="bench" class="bench" aria-label="Workbench" inert>

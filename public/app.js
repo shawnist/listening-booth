@@ -1,17 +1,14 @@
 // Groove Deck: the screen. The deck fills the window; a search bar above it, the shelf
 // below it, a card for what is on the platter, and a Workbench drawer for everything technical.
 // This file owns the audio engine's wiring, the platter, the deck controls and the layout.
-// search.js, shelf.js (the records), shelf-view.js (the sleeves) and platter-card.js do the rest.
+// search.js, shelf.js (the records), shelf-view.js (the sleeves) and platter-card.js do the rest
+// (through web.js; a host page, the LUNA Add On, has none of them).
 import { cutSide, capacitySeconds } from './cutter.js';
 import { FS, seedOf, discFlaws } from './dsp.js';
 import { DECKS, CARTS } from './rig.js';
 import { createDeckView } from './deck-view.js';
-import { createShelf } from './shelf.js';
-import { createShelfView } from './shelf-view.js';
-import { createPlatterCard } from './platter-card.js';
-import { createSearch } from './search.js';
+import { createShelf, createShelfView, createPlatterCard, createSearch, artSrc } from './web.js';
 import { createScenePanel } from './scene-panel.js';
-import { artSrc } from './library.js';
 import { TABLES, storedTable, storeTable } from './decks/registry.js';
 import { createTableSwitch } from './decks/table-ui.js';
 
@@ -437,7 +434,10 @@ function setTable(key, first = false) {
 }
 
 // ---- the records, and the parts of the screen that show them -------------------------------
-const shelf = createShelf({
+// A host page (the LUNA Add On) has no shelf, search or platter card: it presses its own audio
+// through state.press(). It gets these stand-ins instead, so it never asks the Groove Deck server
+// for anything, and its packed .lunaaddon carries no web.js modules (addons/luna/web-host.js).
+const shelf = HOST ? { records: [], work: null, loaded: Promise.resolve(false), letGo() {}, ticked() {}, played() {} } : createShelf({
   state,
   deck: {
     audio, send, putOnPlatter, clearPlatter, fetchPcm, hint, say, changed, landed,
@@ -448,10 +448,12 @@ const shelf = createShelf({
 });
 state.shelf = shelf;
 const ui = { el, mmss, hint, say, view };
-const search = createSearch({ state, shelf, ui });
-const shelfView = createShelfView({ state, shelf, ui: { ...ui, openSearch: () => search.focus() } });
-const platterCard = createPlatterCard({ state, shelf, ui: { ...ui, playTrack, layout: () => layout(), openSearch: () => search.focus() } });
-watchers.push(search.changed, shelfView.changed, platterCard.changed);
+const search = HOST ? { changed() {}, focus() {}, close: () => false, trouble() {} } : createSearch({ state, shelf, ui });
+const shelfView = HOST ? { changed() {}, dropDrag: () => false, closeCard: () => false, closeCollection: () => false }
+  : createShelfView({ state, shelf, ui: { ...ui, openSearch: () => search.focus() } });
+const platterCard = HOST ? { changed() {}, follow() {} }
+  : createPlatterCard({ state, shelf, ui: { ...ui, playTrack, layout: () => layout(), openSearch: () => search.focus() } });
+if (!HOST) watchers.push(search.changed, shelfView.changed, platterCard.changed);
 
 // What the deck says when there is nothing on it.
 if (!HOST) shelf.loaded.then(() => { if (!state.side && !shelf.work) hint(shelf.records.length ? 'Drag a record up from the shelf to play it.' : 'Search for a song or an album to press your first record.'); });
