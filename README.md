@@ -4,8 +4,6 @@
 
 Listening Booth lets you press a virtual record from your LUNA session or an audio file. The cutter turns your mix into the shape of a vinyl groove. Drop the needle and the simulated stylus traces that groove as the platter spins. Its motion produces the sound you hear.
 
-![Listening Booth turntable viewed from above](listening-booth.png)
-
 **Master for the cut.** Press your mix clean or choose Studio Tape, 1960s Tube, or 1970s Tape. The mastering presets use UAD plug-ins to shape the mix before it reaches the cutter. Some presets require licensed plug-ins.
 
 ![Press a record dialog showing mastering presets, record formats, and cut level](listening-booth-press-dialog.png)
