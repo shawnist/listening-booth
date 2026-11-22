@@ -69,6 +69,9 @@
 [data-host="luna"] .addon-card .rc-dot[hidden] { display: none; }
 [data-host="luna"] .addon-card small { display: block; color: var(--dim); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
 [data-host="luna"] .addon-card small.err { color: var(--bad); white-space: normal; }
+/* under a failed press on Windows: that it is in beta, and where to report it */
+[data-host="luna"] .addon-card .rc-beta { margin: 8px 0 0; color: var(--dim); font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; user-select: text; -webkit-user-select: text; }
+[data-host="luna"] .addon-card .rc-beta[hidden] { display: none; }
 /* an instruction is read whole: it wraps rather than trailing off */
 [data-host="luna"] .addon-card[data-rec=empty] small { white-space: normal; }
 [data-host="luna"] .addon-card .rc-prog { height: 3px; border-radius: 2px; background: #2e2a26; overflow: hidden; margin-top: 10px; }

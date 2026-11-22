@@ -25,7 +25,9 @@ it; LUNA asks to add it. Open it from **Add Ons > Windows > Listening Booth**.
 
 ## Requirements
 
-- LUNA 3.1.1 or later, on **macOS**. It does not run in LUNA on Windows yet.
+- LUNA 3.1.1 or later, on **macOS**.
+- **Windows support is in beta.** If something fails there, please
+  [report it](https://github.com/shawnist/listening-booth/issues) with the message on the record card.
 - Imported WAV, MP3, AIFF, FLAC, and M4A files press clean. Use a LUNA session to apply the mastering presets.
 - Studio Tape uses the factory Sweeten preset in Vibe Analog Machines Essentials from UAD Explore FREE.
 - 1960s Tube and 1970s Tape both use Ampex ATR-102 and Pultec EQP-1A. 1960s Tube also uses Fairchild 670. These paid plug-ins are available in UAD Spark Studio. Install and authorize the plug-ins for the preset you want to use.

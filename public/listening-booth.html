@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="stage.css">
 <link rel="stylesheet" href="decks/decks.css">
-<script type="importmap">{ "imports": { "three": "../vendor/three/build/three.module.js", "three/addons/": "../vendor/three/examples/jsm/" } }</script>
 <link rel="stylesheet" href="../addons/luna/addon.css">
 </head>
 <body>
@@ -158,8 +157,15 @@
 <!-- A sleeve in the hand, on its way to the deck. -->
 <div id="ghost" class="ghost" aria-hidden="true" hidden></div>
 
-<script type="module" src="app.js"></script>
 <script src="../addons/luna/vendor/luna.global.js"></script>
-<script type="module" src="../addons/luna/addon.js"></script>
+<script>window.GD_ROOT = "../";</script>
+<script src="decks/dual1229/cad/assets/arm.glb.js"></script>
+<script src="decks/dual1229/cad/assets/changer.glb.js"></script>
+<script src="decks/dual1229/cad/assets/cue.glb.js"></script>
+<script src="decks/dual1229/cad/assets/cycle.glb.js"></script>
+<script src="decks/dual1229/cad/assets/drive.glb.js"></script>
+<script src="decks/dual1229/cad/assets/manifest.json.js"></script>
+<script src="decks/dual1229/cad/assets/structure.glb.js"></script>
+<script src="listening-booth.js"></script>
 </body>
 </html>
